@@ -9,7 +9,7 @@ CloudWalker（牧云）是长亭推出的一款开源服务器安全管理平台
 
 工具打包形式为单个可执行文件，下载之后添加可执行权限即可执行。
 
-[TODO，上传之后填写](TODO)
+[Release 页面](https://github.com/chaitin/cloudwalker/releases)
 
 # 使用方式
 
