@@ -50,5 +50,5 @@ package WebshellDetector
 // 	isWebshellP = 1
 // 	filepath.Walk("../sample/predict/webshell", walkFunc_genProcessorData)
 
-// 	ioutil.WriteFile("../tools/cross-validation tool/MetaData/processorData.txt", []byte(resultP.String()), os.ModePerm)
+// 	ioutil.WriteFile("../tools/cross-validation tool/MetaData/processorData.txt", []byte(resultP.String()), 0600)
 // }

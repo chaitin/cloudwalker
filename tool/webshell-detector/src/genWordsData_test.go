@@ -52,5 +52,5 @@ package WebshellDetector
 // 		return
 // 	}
 
-// 	ioutil.WriteFile("../tools/cross-validation tool/MetaData/wordsData.txt", data, os.ModePerm)
+// 	ioutil.WriteFile("../tools/cross-validation tool/MetaData/wordsData.txt", data, 0600)
 // }

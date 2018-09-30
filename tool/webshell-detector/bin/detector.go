@@ -129,7 +129,7 @@ func printResult(fileIndex int, filePath string, fileRisk int) {
 		res = fmt.Sprintf("[+] %08d %-80s Risk:%d\n", fileIndex, filePath, fileRisk)
 	}
 	if *outputPtr != "" {
-		outputFile, err := os.OpenFile(*outputPtr, os.O_WRONLY|os.O_APPEND, os.ModePerm)
+		outputFile, err := os.OpenFile(*outputPtr, os.O_WRONLY|os.O_APPEND, 0600)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -181,7 +181,7 @@ func main() {
 		log.Println("Detector kernel cannot load.")
 	}
 	if *outputPtr != "" {
-		outputFile, err := os.OpenFile(*outputPtr, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+		outputFile, err := os.OpenFile(*outputPtr, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0600)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -288,7 +288,7 @@ func main() {
 			outputFile.Close()
 		}
 		work(files)
-		outputFile, err = os.OpenFile(*outputPtr, os.O_WRONLY|os.O_APPEND, os.ModePerm)
+		outputFile, err = os.OpenFile(*outputPtr, os.O_WRONLY|os.O_APPEND, 0600)
 		if err != nil {
 			log.Fatal(err)
 		}
