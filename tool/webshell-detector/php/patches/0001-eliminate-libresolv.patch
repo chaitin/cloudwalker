@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E9=85=89=E5=A4=AB?= <youfu.zhang@chaitin.com>
+Date: Wed, 27 Jun 2018 16:15:11 +0800
+Subject: [PATCH] eliminate libresolv
+
+---
+ ext/standard/config.m4 | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
+index b800aaa1..9833898a 100644
+--- a/ext/standard/config.m4
++++ b/ext/standard/config.m4
+@@ -339,17 +339,16 @@ dnl
+ dnl Detect library functions needed by php dns_xxx functions
+ dnl ext/standard/php_dns.h will collect these in a single define: HAVE_FULL_DNS_FUNCS
+ dnl
+-PHP_CHECK_FUNC(res_nsearch, resolv, bind, socket)
+-PHP_CHECK_FUNC(res_ndestroy, resolv, bind, socket)
+-PHP_CHECK_FUNC(dns_search, resolv, bind, socket)
+-PHP_CHECK_FUNC(dn_expand, resolv, bind, socket)
+-PHP_CHECK_FUNC(dn_skipname, resolv, bind, socket)
++#PHP_CHECK_FUNC(res_nsearch, resolv, bind, socket)
++#PHP_CHECK_FUNC(res_ndestroy, resolv, bind, socket)
++#PHP_CHECK_FUNC(dns_search, resolv, bind, socket)
++#PHP_CHECK_FUNC(dn_expand, resolv, bind, socket)
++#PHP_CHECK_FUNC(dn_skipname, resolv, bind, socket)
+ 
+ dnl
+ dnl These are old deprecated functions
+ dnl
+-
+-PHP_CHECK_FUNC(res_search, resolv, bind, socket)
++#PHP_CHECK_FUNC(res_search, resolv, bind, socket)
+ 
+ dnl
+ dnl Check for strptime()

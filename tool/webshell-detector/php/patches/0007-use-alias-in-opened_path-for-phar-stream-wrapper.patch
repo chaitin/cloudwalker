@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E9=85=89=E5=A4=AB?= <youfu.zhang@chaitin.com>
+Date: Tue, 25 Sep 2018 17:44:59 +0800
+Subject: [PATCH] use alias in opened_path for phar:// stream wrapper
+
+---
+ ext/phar/stream.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ext/phar/stream.c b/ext/phar/stream.c
+index 0936681a..feb48e95 100644
+--- a/ext/phar/stream.c
++++ b/ext/phar/stream.c
+@@ -233,7 +233,7 @@ static php_stream * phar_wrapper_open_url(php_stream_wrapper *wrapper, const cha
+ 			}
+ 		}
+ 		if (opened_path) {
+-			*opened_path = strpprintf(MAXPATHLEN, "phar://%s/%s", idata->phar->fname, idata->internal_file->filename);
++			*opened_path = strpprintf(MAXPATHLEN, "phar://%s/%s", idata->phar->alias, idata->internal_file->filename);
+ 		}
+ 		return fpf;
+ 	} else {
+@@ -334,7 +334,7 @@ idata_error:
+ 		}
+ 	}
+ 	if (opened_path) {
+-		*opened_path = strpprintf(MAXPATHLEN, "phar://%s/%s", idata->phar->fname, idata->internal_file->filename);
++		*opened_path = strpprintf(MAXPATHLEN, "phar://%s/%s", idata->phar->alias, idata->internal_file->filename);
+ 	}
+ 	efree(internal_file);
+ phar_stub:

@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E9=85=89=E5=A4=AB?= <youfu.zhang@chaitin.com>
+Date: Wed, 27 Jun 2018 17:08:57 +0800
+Subject: [PATCH] eliminate libdl
+
+---
+ Zend/Zend.m4            | 2 ++
+ Zend/zend_portability.h | 2 +-
+ configure.ac            | 2 ++
+ 3 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Zend/Zend.m4 b/Zend/Zend.m4
+index 7a01c0b0..8a4a5a11 100644
+--- a/Zend/Zend.m4
++++ b/Zend/Zend.m4
+@@ -66,8 +66,10 @@ AC_TYPE_SIZE_T
+ AC_TYPE_SIGNAL
+ 
+ AC_DEFUN([LIBZEND_LIBDL_CHECKS],[
++if false; then
+ AC_CHECK_LIB(dl, dlopen, [LIBS="-ldl $LIBS"])
+ AC_CHECK_FUNC(dlopen,[AC_DEFINE(HAVE_LIBDL, 1,[ ])])
++fi
+ ])
+ 
+ AC_DEFUN([LIBZEND_DLSYM_CHECK],[
+diff --git a/Zend/zend_portability.h b/Zend/zend_portability.h
+index 79632f65..6e581e7c 100644
+--- a/Zend/zend_portability.h
++++ b/Zend/zend_portability.h
+@@ -159,7 +159,7 @@
+ # define DL_ERROR					dlerror
+ # define DL_HANDLE					void *
+ # define ZEND_EXTENSIONS_SUPPORT	1
+-#elif defined(ZEND_WIN32)
++#elif 0
+ # define DL_LOAD(libname)			LoadLibrary(libname)
+ # define DL_FETCH_SYMBOL			GetProcAddress
+ # define DL_UNLOAD					FreeLibrary
+diff --git a/configure.ac b/configure.ac
+index ff48a4df..8df71f77 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -422,10 +422,12 @@ PHP_CHECK_FUNC(htonl, socket)
+ #PHP_CHECK_FUNC(gethostbyaddr, nsl)
+ #PHP_CHECK_FUNC(yp_get_default_domain, nsl)
+ 
++if false; then
+ PHP_CHECK_FUNC(dlopen, dl)
+ if test "$ac_cv_func_dlopen" = "yes"; then
+   AC_DEFINE(HAVE_LIBDL, 1, [ ])
+ fi
++fi
+ AC_CHECK_LIB(m, sin)
+ 
+ dnl Check for inet_aton

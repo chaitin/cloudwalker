@@ -1,0 +1,11 @@
+# macOS Finder metadata
+.DS_Store
+
+# build
+/bin/
+/include/
+/lib/
+/payload-phar.c
+/payload.phar
+/php-*
+/php/

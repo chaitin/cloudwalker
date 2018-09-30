@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E9=85=89=E5=A4=AB?= <youfu.zhang@chaitin.com>
+Date: Fri, 29 Jun 2018 16:23:08 +0800
+Subject: [PATCH] eliminate librt
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8df71f77..2fd8fc9f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -680,7 +680,7 @@ nanosleep \
+ )
+ 
+ dnl Some systems (like OpenSolaris) do not have nanosleep in libc
+-PHP_CHECK_FUNC_LIB(nanosleep, rt)
++PHP_CHECK_FUNC(nanosleep)
+ 
+ if false; then
+ dnl Check for getaddrinfo, should be a better way, but...

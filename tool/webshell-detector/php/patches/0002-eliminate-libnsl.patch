@@ -1,0 +1,164 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E9=85=89=E5=A4=AB?= <youfu.zhang@chaitin.com>
+Date: Sat, 29 Sep 2018 22:31:10 +0800
+Subject: [PATCH] eliminate libnsl
+
+---
+ TSRM/tsrm.m4            |  4 ++--
+ configure.ac            | 12 +++++-------
+ ext/standard/dns.c      |  6 +++---
+ ext/standard/filestat.c |  4 ++--
+ main/fopen_wrappers.c   |  2 +-
+ main/main.c             |  2 +-
+ main/network.c          |  2 +-
+ 7 files changed, 15 insertions(+), 17 deletions(-)
+
+diff --git a/TSRM/tsrm.m4 b/TSRM/tsrm.m4
+index 98aa2b8c..7d3f7852 100644
+--- a/TSRM/tsrm.m4
++++ b/TSRM/tsrm.m4
+@@ -1,4 +1,4 @@
+-m4_include([TSRM/m4/gethostbyname.m4])
++#m4_include([TSRM/m4/gethostbyname.m4])
+ 
+ dnl TSRM_CHECK_GCC_ARG(ARG, ACTION-IF-FOUND, ACTION-IF-NOT_FOUND)	
+ AC_DEFUN([TSRM_CHECK_GCC_ARG],[
+@@ -33,7 +33,7 @@ AC_CHECK_HEADERS(stdarg.h)
+ 
+ AC_CHECK_FUNCS(sigprocmask)
+ 
+-AX_FUNC_WHICH_GETHOSTBYNAME_R()
++#AX_FUNC_WHICH_GETHOSTBYNAME_R()
+ 
+ ])
+ 
+diff --git a/configure.ac b/configure.ac
+index 974c7b08..ff48a4df 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -418,9 +418,9 @@ dnl Also, uClibc will bark at linking with glibc's libnsl.
+ PHP_CHECK_FUNC(socket, socket)
+ PHP_CHECK_FUNC(socketpair, socket)
+ PHP_CHECK_FUNC(htonl, socket)
+-PHP_CHECK_FUNC(gethostname, nsl)
+-PHP_CHECK_FUNC(gethostbyaddr, nsl)
+-PHP_CHECK_FUNC(yp_get_default_domain, nsl)
++#PHP_CHECK_FUNC(gethostname, nsl)
++#PHP_CHECK_FUNC(gethostbyaddr, nsl)
++#PHP_CHECK_FUNC(yp_get_default_domain, nsl)
+ 
+ PHP_CHECK_FUNC(dlopen, dl)
+ if test "$ac_cv_func_dlopen" = "yes"; then
+@@ -610,10 +610,6 @@ gai_strerror \
+ gcvt \
+ getloadavg \
+ getlogin \
+-getprotobyname \
+-getprotobynumber \
+-getservbyname \
+-getservbyport \
+ gethostname \
+ getrusage \
+ gettimeofday \
+@@ -684,6 +680,7 @@ nanosleep \
+ dnl Some systems (like OpenSolaris) do not have nanosleep in libc
+ PHP_CHECK_FUNC_LIB(nanosleep, rt)
+ 
++if false; then
+ dnl Check for getaddrinfo, should be a better way, but...
+ dnl Also check for working getaddrinfo
+ AC_CACHE_CHECK([for getaddrinfo], ac_cv_func_getaddrinfo,
+@@ -730,6 +727,7 @@ ac_cv_func_getaddrinfo=no)])
+ if test "$ac_cv_func_getaddrinfo" = yes; then
+   AC_DEFINE(HAVE_GETADDRINFO,1,[Define if you have the getaddrinfo function])
+ fi
++fi
+ 
+ dnl Check for the __sync_fetch_and_add builtin
+ AC_CACHE_CHECK([for __sync_fetch_and_add], ac_cv_func_sync_fetch_and_add,
+diff --git a/ext/standard/dns.c b/ext/standard/dns.c
+index fb21d6dd..13af9727 100644
+--- a/ext/standard/dns.c
++++ b/ext/standard/dns.c
+@@ -184,9 +184,9 @@ static zend_string *php_gethostbyaddr(char *ip)
+ 
+ #if HAVE_IPV6 && HAVE_INET_PTON
+ 	if (inet_pton(AF_INET6, ip, &addr6)) {
+-		hp = gethostbyaddr((char *) &addr6, sizeof(addr6), AF_INET6);
++		hp = NULL;
+ 	} else if (inet_pton(AF_INET, ip, &addr)) {
+-		hp = gethostbyaddr((char *) &addr, sizeof(addr), AF_INET);
++		hp = NULL;
+ 	} else {
+ 		return NULL;
+ 	}
+@@ -197,7 +197,7 @@ static zend_string *php_gethostbyaddr(char *ip)
+ 		return NULL;
+ 	}
+ 
+-	hp = gethostbyaddr((char *) &addr, sizeof(addr), AF_INET);
++	hp = NULL;
+ #endif
+ 
+ 	if (!hp || hp->h_name == NULL || hp->h_name[0] == '\0') {
+diff --git a/ext/standard/filestat.c b/ext/standard/filestat.c
+index e730b5ae..a4839585 100644
+--- a/ext/standard/filestat.c
++++ b/ext/standard/filestat.c
+@@ -315,7 +315,7 @@ PHPAPI int php_get_gid_by_name(const char *name, gid_t *gid)
+ 		efree(grbuf);
+ 		*gid = gr.gr_gid;
+ #else
+-		struct group *gr = getgrnam(name);
++		struct group *gr = NULL;
+ 
+ 		if (!gr) {
+ 			return FAILURE;
+@@ -451,7 +451,7 @@ PHPAPI uid_t php_get_uid_by_name(const char *name, uid_t *uid)
+ 		efree(pwbuf);
+ 		*uid = pw.pw_uid;
+ #else
+-		struct passwd *pw = getpwnam(name);
++		struct passwd *pw = NULL;
+ 
+ 		if (!pw) {
+ 			return FAILURE;
+diff --git a/main/fopen_wrappers.c b/main/fopen_wrappers.c
+index 520edfad..03feb87c 100644
+--- a/main/fopen_wrappers.c
++++ b/main/fopen_wrappers.c
+@@ -389,7 +389,7 @@ PHPAPI int php_fopen_primary_script(zend_file_handle *file_handle)
+ 				return FAILURE;
+ 			}
+ #else
+-			pw = getpwnam(user);
++			pw = NULL;
+ #endif
+ 			if (pw && pw->pw_dir) {
+ 				spprintf(&filename, 0, "%s%c%s%c%s", pw->pw_dir, PHP_DIR_SEPARATOR, PG(user_dir), PHP_DIR_SEPARATOR, s + 1); /* Safe */
+diff --git a/main/main.c b/main/main.c
+index ee92bcc7..4049f4d1 100644
+--- a/main/main.c
++++ b/main/main.c
+@@ -1329,7 +1329,7 @@ PHPAPI char *php_get_current_user(void)
+ 		}
+ 		pwd = &_pw;
+ #else
+-		if ((pwd=getpwuid(pstat->st_uid))==NULL) {
++		if (1) {
+ 			return "";
+ 		}
+ #endif
+diff --git a/main/network.c b/main/network.c
+index 30e22003..002861fb 100644
+--- a/main/network.c
++++ b/main/network.c
+@@ -1340,7 +1340,7 @@ struct hostent * gethostname_re (const char *host,struct hostent *hostbuf,char *
+ 
+ PHPAPI struct hostent*	php_network_gethostbyname(char *name) {
+ #if !defined(HAVE_GETHOSTBYNAME_R)
+-	return gethostbyname(name);
++	return NULL;
+ #else
+ 	if (FG(tmp_host_buf)) {
+ 		free(FG(tmp_host_buf));
