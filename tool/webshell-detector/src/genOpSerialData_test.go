@@ -50,5 +50,5 @@ package WebshellDetector
 // 	isWebshellO = 1
 // 	filepath.Walk("../sample/predict/webshell", walkFunc_genOpSerialData)
 
-// 	ioutil.WriteFile("../tools/cross-validation tool/MetaData/opSerialData.txt", []byte(resultO.String()), os.ModePerm)
+// 	ioutil.WriteFile("../tools/cross-validation tool/MetaData/opSerialData.txt", []byte(resultO.String()), 0600)
 // }
