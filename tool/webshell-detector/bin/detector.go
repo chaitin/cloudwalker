@@ -87,6 +87,9 @@ func multiTest(detectPath string) {
 }
 
 func singleTest(path string) {
+
+	countFile++
+	
 	if err != nil {
 		log.Fatal(err)
 	}
