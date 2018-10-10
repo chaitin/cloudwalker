@@ -106,14 +106,19 @@ func singleTest(path string) {
 		switch score {
 		case 1, 2:
 			risk = 1
+			countRisk1++
 		case 3:
 			risk = 2
+			countRisk2++
 		case 4:
 			risk = 3
+			countRisk3++
 		case 5:
 			risk = 4
+			countRisk4++
 		case 6, 7:
 			risk = 5
+			countRisk5++
 		default:
 			risk = 0
 		}
