@@ -1,3 +1,6 @@
+**本项目停止更新，感谢一直以来的支持。**
+
+**长亭科技已发布[牧云企业版](https://www.chaitin.cn/zh/cloudwalker)，敬请关注。**
 
 # CloudWalker（牧云）开源计划
 
