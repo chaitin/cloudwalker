@@ -2,6 +2,8 @@
 
 **长亭科技已发布[牧云企业版](https://www.chaitin.cn/zh/cloudwalker)，敬请关注。**
 
+**牧云企业版的全新 webshell 检测能力可以在 [Xray 社区](https://forum.xray.cool/webshell) 体验。**
+
 # CloudWalker（牧云）开源计划
 
 CloudWalker（牧云）是长亭推出的一款开源服务器安全管理平台。根据项目计划会逐步覆盖服务器资产管理、威胁扫描、Webshell 查杀、基线检测等各项功能。
