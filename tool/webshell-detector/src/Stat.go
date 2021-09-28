@@ -85,16 +85,21 @@ func lineVariationCoefficient(src string) float64 {
 }
 
 func statWords(src string) []int64 {
-	// get all words
-	wordReg, _ := regexp.Compile(`[a-zA-Z0-9]*`)
 	var result []int64
-	regRusult := wordReg.FindAllStringIndex(src, -1)
-	for _, index := range regRusult {
-		if index[1]-index[0] > 0 {
-			result = append(result, int64(index[1]-index[0]))
-
+	l := int64(0)
+	for _, c := range src {
+		if (c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122) {
+			l++
+		} else if l != 0 {
+			result = append(result, l)
+			l = 0
 		}
 	}
+
+	if l != 0 {
+		result = append(result, l)
+	}
+
 	return result
 }
 
