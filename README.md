@@ -2,7 +2,7 @@
 
 **长亭科技已发布[牧云企业版](https://www.chaitin.cn/zh/cloudwalker)，敬请关注。**
 
-**牧云企业版的全新 webshell 检测能力可以在 [Xray 社区](https://forum.xray.cool/webshell) 体验。**
+**牧云企业版的全新 webshell 检测能力可以在 [Xray 社区](https://stack.chaitin.com/security-challenge/webshell/index) 体验。**
 
 # CloudWalker（牧云）开源计划
 
